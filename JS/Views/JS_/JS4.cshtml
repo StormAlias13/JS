@@ -1,0 +1,140 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Bài 4 - To-do list</title>
+    <script>
+        // Thêm một công việc vào danh sách
+        function themViec() {
+            var inp = document.getElementById("viec");
+            var text = inp.value.trim();
+
+            if (text == "") {
+                alert("Hãy nhập công việc!");
+                return;
+            }
+
+            var li = document.createElement("li");
+
+            // Checkbox: tick thì gạch ngang công việc
+            var cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.onclick = function () {
+                li.className = cb.checked ? "done" : "";
+            };
+
+            // Nội dung công việc
+            var sp = document.createElement("span");
+            sp.appendChild(document.createTextNode(text));
+
+            // Nút xóa
+            var x = document.createElement("b");
+            x.innerHTML = "×";
+            x.className = "xoa";
+            x.onclick = function () {
+                li.remove();
+            };
+
+            li.appendChild(cb);
+            li.appendChild(sp);
+            li.appendChild(x);
+            document.getElementById("ds").appendChild(li);
+
+            inp.value = "";
+            inp.focus();
+        }
+
+        // Nhấn Enter cũng thêm việc
+        window.onload = function () {
+            document.getElementById("viec").onkeyup = function (e) {
+                if (e.key == "Enter") {
+                    themViec();
+                }
+            };
+        };
+    </script>
+    <style>
+        body {
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        .app {
+            width: 620px;
+        }
+
+        .top {
+            display: flex;
+        }
+
+            .top input {
+                flex: 1;
+                border: 0;
+                padding: 22px;
+                font-size: 24px;
+                color: #fff;
+                background: #323f50;
+            }
+
+            .top button {
+                width: 90px;
+                border: 0;
+                font-size: 40px;
+                color: #fff;
+                background: #1fd3b0;
+                cursor: pointer;
+            }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 22px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+            li span {
+                flex: 1;
+            }
+
+            li input {
+                width: 20px;
+                height: 20px;
+            }
+
+            li.done span {
+                text-decoration: line-through;
+                color: #999;
+            }
+
+        .xoa {
+            color: #c33;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="top">
+            <input type="text" id="viec" placeholder="Enter a task">
+            <button onclick="themViec()">+</button>
+        </div>
+        <ul id="ds"></ul>
+    </div>
+</body>
+</html>

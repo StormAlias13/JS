@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Bài 5 - Progress bar</title>
+    <script>
+        // Tạo thanh progress chạy từ 0% đến giá trị đích
+        // id: id của thanh, dich: % cần đạt, tocDo: ms giữa mỗi bước
+        function chayProgress(id, dich, tocDo) {
+            var bar = document.getElementById(id);
+            var p = 0;
+
+            var t = setInterval(function () {
+                if (p >= dich) {
+                    clearInterval(t); // dừng khi đạt giá trị đích
+                    return;
+                }
+                p++;
+                bar.style.width = p + "%";
+                bar.innerHTML = p + "%";
+            }, tocDo);
+        }
+
+        window.onload = function () {
+            chayProgress("bar1", 60, 40);
+            chayProgress("bar2", 30, 40);
+            chayProgress("bar3", 53, 40);
+        };
+    </script>
+    <style>
+        body {
+            width: 700px;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+        }
+
+        .track {
+            height: 34px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #ddddda;
+        }
+
+        .bar {
+            width: 0;
+            height: 100%;
+            box-sizing: border-box;
+            padding-right: 10px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 34px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="track"><div class="bar" id="bar1" style="background: #6a1f99;"></div></div>
+    <div class="track"><div class="bar" id="bar2" style="background: #0b6b5c;"></div></div>
+    <div class="track"><div class="bar" id="bar3" style="background: #e8691e;"></div></div>
+</body>
+</html>

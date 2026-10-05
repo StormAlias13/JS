@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Bài 3 - Đồng hồ kỹ thuật số</title>
+    <script>
+        // Thêm số 0 phía trước nếu nhỏ hơn 10
+        function pad(n) {
+            return n < 10 ? "0" + n : n;
+        }
+
+        // Lấy giờ hệ thống và hiển thị dạng 12 giờ + AM/PM
+        function chayDongHo() {
+            var d = new Date();
+            var h = d.getHours();
+            var ampm = (h >= 12) ? "PM" : "AM";
+
+            h = h % 12;
+            if (h == 0) {
+                h = 12;
+            }
+
+            document.getElementById("clock").innerHTML =
+                pad(h) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()) + " " + ampm;
+        }
+
+        window.onload = function () {
+            chayDongHo();
+            setInterval(chayDongHo, 1000); // cập nhật mỗi 1 giây
+        };
+    </script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #clock {
+            font-family: "Times New Roman", serif;
+            font-size: 72px;
+            letter-spacing: 6px;
+            color: #1ec8f5;
+            text-shadow: 0 0 12px #1ec8f5;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">00:00:00 AM</div>
+</body>
+</html>

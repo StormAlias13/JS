@@ -1,0 +1,174 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Bài 1 - Phiếu tham gia CLB Tin học LUBU</title>
+    <script>
+        // Hiển thị thông báo vào phần tử có id
+        function showMsg(id, msg) {
+            document.getElementById(id).innerHTML = msg;
+        }
+
+        // 1/ Mã sinh viên: chuỗi có chiều dài đúng 10
+        function kiemTraMaSV() {
+            var v = document.getElementById("masv").value.trim();
+            var ok = (v.length == 10);
+            showMsg("masv_error", ok ? "" : "Mã sinh viên gồm 10 ký tự");
+            return ok;
+        }
+
+        // 2/ Họ tên: không rỗng, chiều dài tối đa 30
+        function kiemTraHoTen() {
+            var v = document.getElementById("hoten").value.trim();
+            var ok = (v != "" && v.length <= 30);
+            showMsg("hoten_error", ok ? "" : "Họ tên không rỗng và < 30 ký tự");
+            return ok;
+        }
+
+        // 3/ Tuổi: từ 18 trở lên
+        function kiemTraTuoi() {
+            var n = parseInt(document.getElementById("tuoi").value);
+            var ok = (!isNaN(n) && n >= 18);
+            showMsg("tuoi_error", ok ? "" : "Tuổi phải 18 trở lên");
+            return ok;
+        }
+
+        // Ngoại ngữ: xuất dòng kết quả các mục đã chọn
+        function hienNgoaiNgu() {
+            var cb = document.getElementsByName("ngoaingu");
+            var ds = [];
+            for (var i = 0; i < cb.length; i++) {
+                if (cb[i].checked) {
+                    ds.push(cb[i].value);
+                }
+            }
+            showMsg("ngoaingu_kq", ds.join(" và "));
+        }
+
+        // 4/ Chọn chuyên ngành -> hiển thị sở trường
+        function chonChuyenNganh(obj) {
+            var sotruong = {
+                "hethong": "Phân tích & Thiết kế",
+                "phanmem": "Lập trình",
+                "mang": "Quản lý mạng"
+            };
+            showMsg("sotruong", sotruong[obj.value] || "");
+        }
+
+        // 5/ Nút Đăng ký: kiểm tra tất cả
+        function dangKy() {
+            var a = kiemTraMaSV();
+            var b = kiemTraHoTen();
+            var c = kiemTraTuoi();
+            hienNgoaiNgu();
+
+            var kq = document.getElementById("ketqua");
+            if (a && b && c) {
+                kq.innerHTML = "Bạn đã đăng ký thành công";
+            } else {
+                kq.innerHTML = "Bạn phải nhập lại cho đúng";
+            }
+            return false; // không submit form
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        h2 {
+            font-weight: normal;
+        }
+
+            h2 b {
+                color: #00bfff;
+            }
+
+        table {
+            border: 2px solid #666;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .err {
+            color: red;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        #ketqua {
+            color: blue;
+            font-style: italic;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <h2>PHIẾU THAM GIA CLB TIN HỌC <b>LUBU</b></h2>
+
+    <form onsubmit="return dangKy();">
+        <table>
+            <tr>
+                <td>Mã sinh viên :</td>
+                <td><input type="text" id="masv" placeholder="Nhập Mã SV"></td>
+                <td class="err" id="masv_error"></td>
+            </tr>
+            <tr>
+                <td>Họ và tên :</td>
+                <td><input type="text" id="hoten" placeholder="Nhập Họ và tên"></td>
+                <td class="err" id="hoten_error"></td>
+            </tr>
+            <tr>
+                <td>Tuổi :</td>
+                <td><input type="text" id="tuoi" placeholder="Nhập tuổi > 18"></td>
+                <td class="err" id="tuoi_error"></td>
+            </tr>
+            <tr>
+                <td>Ngoại ngữ :</td>
+                <td>
+                    <label><input type="checkbox" name="ngoaingu" value="Anh"> Anh</label>
+                    <label><input type="checkbox" name="ngoaingu" value="Pháp"> Pháp</label>
+                    <label><input type="checkbox" name="ngoaingu" value="Nhật"> Nhật</label>
+                </td>
+                <td class="err" id="ngoaingu_kq"></td>
+            </tr>
+            <tr>
+                <td>Chuyên ngành :</td>
+                <td>
+                    <select id="chuyennganh" onchange="chonChuyenNganh(this)">
+                        <option value="hethong">Hệ thống</option>
+                        <option value="phanmem">Phần mềm</option>
+                        <option value="mang">Mạng máy tính</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Sở trường :</td>
+                <td><i id="sotruong"></i></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit">Đăng ký</button></td>
+                <td id="ketqua"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        // Hiện sở trường mặc định theo chuyên ngành đang chọn
+        chonChuyenNganh(document.getElementById("chuyennganh"));
+    </script>
+</body>
+</html>

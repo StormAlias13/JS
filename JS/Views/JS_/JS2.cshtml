@@ -1,0 +1,175 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Bài 2 - Thông tin giao hàng</title>
+    <script>
+        // 1/ Hàm dùng chung cho các textbox: không cho phép rỗng
+        //    Thông báo hiện ngay dưới textbox (span có id = id + "_error")
+        function kiemTraRong(id, tenTruong) {
+            var v = document.getElementById(id).value.trim();
+            var ok = (v != "");
+            document.getElementById(id + "_error").innerHTML = ok ? "" : "Vui lòng nhập " + tenTruong;
+            return ok;
+        }
+
+        // 2/ Số điện thoại: từ 10 ký số trở lên
+        function kiemTraSDT() {
+            var v = document.getElementById("sdt").value.trim();
+            var ok = /^[0-9]{10,}$/.test(v);
+            document.getElementById("sdt_error").innerHTML = ok ? "" : "Số điện thoại phải từ 10 ký số trở lên";
+            return ok;
+        }
+
+        // 3/ Hàm dùng chung cho 2 nút "Văn phòng" và "Nhà riêng"
+        function chonNoiGiao(loai) {
+            if (loai == "vanphong") {
+                alert("Bạn chọn giao hàng tại văn phòng");
+            } else {
+                alert("Bạn chọn giao hàng tại nhà riêng");
+            }
+        }
+
+        // 4/ Nút "Lưu"
+        function luu() {
+            var ketqua = [
+                kiemTraRong("ten", "tên"),
+                kiemTraSDT(),
+                kiemTraRong("diachi", "địa chỉ"),
+                kiemTraRong("tinh", "tỉnh / thành phố"),
+                kiemTraRong("quan", "quận / huyện"),
+                kiemTraRong("phuong", "phường / xã")
+            ];
+
+            var hopLe = ketqua.every(function (x) {
+                return x;
+            });
+
+            if (hopLe) {
+                alert("Lưu thông tin thành công");
+            } else {
+                alert("Thông tin nhập không hợp lệ");
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        .box {
+            width: 760px;
+            border: 1px solid #333;
+            padding: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .err {
+            color: red;
+            font-size: 12px;
+            min-height: 14px;
+        }
+
+        button {
+            border: 0;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .vp {
+            background: #337ab7;
+        }
+
+        .nr {
+            background: #5cb85c;
+        }
+
+        .luu {
+            background: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h3 style="font-weight: normal; margin-top: 0;">Thông tin giao hàng</h3>
+
+        <div class="grid">
+            <div>
+                <label>Tên</label>
+                <input type="text" id="ten" onblur="kiemTraRong('ten', 'tên')">
+                <div class="err" id="ten_error"></div>
+            </div>
+            <div>
+                <label>Địa chỉ nhận hàng</label>
+                <input type="text" id="diachi" onblur="kiemTraRong('diachi', 'địa chỉ')">
+                <div class="err" id="diachi_error"></div>
+            </div>
+
+            <div>
+                <label>Số điện thoại</label>
+                <input type="text" id="sdt" onblur="kiemTraSDT()">
+                <div class="err" id="sdt_error"></div>
+            </div>
+            <div>
+                <label>Tỉnh / thành phố</label>
+                <input type="text" id="tinh" onblur="kiemTraRong('tinh', 'tỉnh / thành phố')">
+                <div class="err" id="tinh_error"></div>
+            </div>
+
+            <div></div>
+            <div>
+                <label>Quận / Huyện</label>
+                <input type="text" id="quan" onblur="kiemTraRong('quan', 'quận / huyện')">
+                <div class="err" id="quan_error"></div>
+            </div>
+
+            <div></div>
+            <div>
+                <label>Phường / Xã</label>
+                <input type="text" id="phuong" onblur="kiemTraRong('phuong', 'phường / xã')">
+                <div class="err" id="phuong_error"></div>
+            </div>
+
+            <div></div>
+            <div>
+                <label>Lựa chọn tên cho địa chỉ thường dùng</label>
+                <button class="vp" onclick="chonNoiGiao('vanphong')">Văn phòng</button>
+                <button class="nr" onclick="chonNoiGiao('nharieng')">Nhà riêng</button>
+            </div>
+
+            <div></div>
+            <div>
+                <button class="luu" onclick="luu()">Lưu</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
